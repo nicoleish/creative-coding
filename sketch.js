@@ -12,7 +12,7 @@ function setup() {
   for (let i = 0; i < 300; i++) {
     bubbles[i] = new Bubble(middleX, middleY);
   }
-  rate = 5
+  rate = 4
   r=26
 }
 function draw() {  
@@ -67,7 +67,7 @@ function draw() {
   }
 
   if (mouseIsPressed==true) {
-  	rate = rate+2;
+  	rate = rate+1;
   	r = r +1;
   }
 
