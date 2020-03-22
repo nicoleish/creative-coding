@@ -3,6 +3,7 @@ var a;
 var b;
 var d;
 var b;
+let i = 250;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -28,8 +29,16 @@ function draw() {
   //eyes
   arc((middleX +25) -70,(middleY+60)-20,80, 80, 0, PI);
   arc((middleX +25) + 70,(middleY+60)-20,80, 80, 0, PI);
-  // mouth
-  // arc(middleX +25,(middleY+60)+60,80, 80, 0, PI/4);  
+
+  // mouths
+  //straight
+  // arc(middleX -20,(middleY+60)+60,200, 0, 5, PI/4); 
+  //smile
+   arc(middleX +25,(middleY+60)+60,150, i, 0, PI); 
+
+   if (mouseIsPressed==true) {
+  	i = i-1;
+  }
 
   //300 x 200
   fill(255);
@@ -47,12 +56,16 @@ function draw() {
     ellipse(mouseX+20,mouseY-11,26,26);
     ellipse(mouseX+40,mouseY,25,25);
 
-  // middle cloud
-  a = random(250);
-  b = random(250);
-  d = random(250);
-  fill(a,b,d);
-  strokeWeight(2);
+
+
+  for (let i = 0; i < bubbles.length; i++) {
+    bubbles[i].move();
+    bubbles[i].show();
+  }
+
+
+  fill('white');
+  noStroke();
     ellipse(middleX+2, middleY+2, r, r);
     ellipse(middleX+10,middleY-2 + 12,r,r);
     ellipse(middleX+30,middleY+10,r,r);
@@ -61,16 +74,11 @@ function draw() {
     ellipse(middleX+40,middleY,r-1,r-1);
 
 
-  for (let i = 0; i < bubbles.length; i++) {
-    bubbles[i].move();
-    bubbles[i].show();
-  }
 
   if (mouseIsPressed==true) {
   	rate = rate+1;
   	r = r +1;
   }
-
   frameRate(rate);
 
 }
