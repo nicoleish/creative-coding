@@ -12,5 +12,17 @@ function setup() {
 function draw() {
   background(backdrop);
 
+}
+
+function keyTyped() {
+  if (key === '1') {
+  	backdrop = "final_screen1.jpg";
+  } else if (key === '2') {
+    backdrop = "final_screen2.jpg";
+} else if (key === '3') {
+    backdrop = "final_screen3.jpg";
+ } else if (key === '4') {
+    backdrop = "final_screen4.jpg"
+  }
 
 }
