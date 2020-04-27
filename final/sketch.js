@@ -1,10 +1,12 @@
 let backdrop;
+ley butterfly;
 let y = 0;
 
 function setup() {
   // The background image must be the same size as the parameters
   // into the createCanvas() method. In this program, the size of
   // the image is 720x400 pixels.
+  butterfly = loadImage('butter1.png')
   backdrop = loadImage('final_screen1.jpg');
   createCanvas(windowWidth, windowHeight);
 }
