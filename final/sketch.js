@@ -1,7 +1,8 @@
+var scene;
+
 let backdrop;
 let backdrop2;
 let backdrop3;
-let backdrop4;
 
 let butterfly;
 let ladybug;
@@ -21,15 +22,12 @@ var speed = 3;
 var targetX = cx;
 var targetY = cy;
 
-var size_1 = 50;
-var size_2 = 150;
 
 let player;
 let player1;
 let player2;
 let player3;
 let player4;
-
 
 function preload() {
   player1 = loadImage('player1.png')
@@ -46,59 +44,90 @@ function preload() {
   bees = loadImage('bee2.png');
 }
 
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  //all butterflies 
+  scene = 0;
   for (let i = 0; i < 50; i++) {
     let x = random(width);
     let y = random(height);
-    let r = random(size_1, size_2);
+    let r = random(50, 100);
     let b = new Bubble(x, y, r);
     bubbles.push(b);
   }
 }
 
-function draw() {
-  background(backdrop);
-  //other butterdlies 
-  for (let i = 0; i < bubbles.length; i++) {
-    bubbles[i].move();
-    bubbles[i].show();
-  }
-
-  //click movement
-  player = player1;
+// start screen so they can pick the 
+function startScreen() {
+  background('#d7c3d7');
+  textSize(32);
+  fill(255);
+  text('welcome to the catching bug game', width / 2 - 140, height / 2 + 10);
+  textSize(24);
   
-  // player changes with background
-  if (score > 15) {
-    player = player2;
-  } else if (score > 30) {
-    player = player3;
-  } else if (score > 40) {
-    player = player4; 
-  }
-  image(player, cx, cy, cr, cr);
-  cx += (targetX - cx) * easing;
-  cy += (targetY - cy) * easing;
+  text('up arrow =', width / 2 - 215, height / 2 + 70);
+  image(player1, width / 2 - 200, height / 2 + 75, 100, 100);
+  
+  text('down arrow =', width / 2 - 315, height / 2 + 170);
+  image(player2, width / 2 - 315, height / 2 + 175, 100, 100);
 
+  //title 
+  textSize(48);
+  fill(255);
+  text('Catch le Bugs!', width / 2 - 160, height / 2 - 150);
+  image(bees, width / 2 - 230, height / 2 - 150, 50, 50);
+  image(ladybug, width / 2 - 180, height / 2 - 160, 50, 50);
+  image(butterfly, width- 180, height- 160, 50, 50);
+  image(dragonfly, width- 140, height- 110, 50, 50);
+
+  
+
+} // initialize the start screen upon starting the code.
+
+function draw() {
+  changeScene();
+  
   // score board!
   textSize(50);
-  // textFont('Press Start 2P');
-  text("Score: " + score, 10, 35);
-  
-  if (score > 45) {
-  fill('#03a9f4');
-  text("You Did It! All 45 bugs!", windowWidth/2 -150 , windowHeight/2) -10;
-}
-  if (score == 15) {
-    backdrop = backdrop2;
-  } else if (score == 30) {
-    backdrop = backdrop3
-  } else if (score == 40) {
-    backdrop = backdrop4
+  textFont('Impact');
+  text("Score: " + score, 10, 45);
+
+
+  if (scene == 0) {
+    startScreen();
+  }
+  if (scene == 1) {
+    //render scene
+    scene1();
+  }
+  if (scene == 2) {
+    scene2();
+  }
+  if (scene == 3) {
+    scene3();
   }
 
+  //how to activate end-screen
+  if (score > 45) {
+    congrats();
+  }
 }
+
+function keyPressed() {
+  //each arrow key can change to play screen 
+  //each arrow will be a character 
+  // hard code intro for these 
+  //make box with images
+  if (keyCode === UP_ARROW) {
+    player = player1;
+    scene += 1;
+  } else if (keyCode === DOWN_ARROW) {
+    scene += 1;
+    player = player2;
+  }
+}
+
 
 function mousePressed() {
   targetX = mouseX;
@@ -115,19 +144,83 @@ function mousePressed() {
   }
 }
 
-
-function keyTyped() {
-  if (key === '1') {
-    backdrop = (loadImage('final_screen1.jpg'));
-  } else if (key === '2') {
-    backdrop = backdrop2;
-  } else if (key === '3') {
-    backdrop = backdrop3;
-  } else if (key === '4') {
-    backdrop = backdrop4;
+//change scene states if the player's x-position is outside of the window!
+function changeScene() {
+  if (cx > windowWidth - 120) {
+    scene += 1;
   }
+}
+
+
+
+
+
+//have each sceen have a certain amount of bugs 
+//each scene as a function with certain amount of bugs 
+// try to get diversity in bugs per screen
+function scene1() {
+  background(backdrop);
+  image(player, cx, cy, cr, cr);
+  cx += (targetX - cx) * easing;
+  cy += (targetY - cy) * easing;
+
+  //all butterflies 
+
+  //other butterdlies 
+  for (let i = 0; i < bubbles.length; i++) {
+    bubbles[i].move();
+    bubbles[i].show();
+  }
+  
+    // score board!
+  fill('#03a9f4');
+  textSize(50);
+  textFont('Impact');
+  text("Score: " + score, 10, 45);
+
 
 }
+
+function scene2() {
+  background(backdrop2);
+  image(player, cx, cy, cr, cr);
+  cx += (targetX - cx) * easing;
+  cy += (targetY - cy) * easing;
+
+  //all butterflies 
+
+  //other butterdlies 
+  for (let i = 0; i < bubbles.length; i++) {
+    bubbles[i].move();
+    bubbles[i].show();
+  }
+  
+    // score board!
+  textSize(50);
+  textFont('Impact');
+  text("Score: " + score, 10, 45);
+}
+
+function scene3() {
+  background(backdrop3);
+  image(player, cx, cy, cr, cr);
+  cx += (targetX - cx) * easing;
+  cy += (targetY - cy) * easing;
+
+  //all butterflies 
+
+  //other butterdlies 
+  for (let i = 0; i < bubbles.length; i++) {
+    bubbles[i].move();
+    bubbles[i].show();
+  }
+  
+    // score board!
+  textSize(50);
+  textFont('Impact');
+  text("Score: " + score, 10, 45);
+}
+
 
 class Bubble {
   constructor(x, y, r, img) {
@@ -166,16 +259,11 @@ class Bubble {
 
 
   show() {
-    if (score < 15) {
-      image(butterfly, this.x, this.y, this.r, this.r);
-    } else if (16 < score < 30) {
+      image(butterfly, this.x + 200, this.y+200, this.r, this.r);
       image(ladybug, this.x, this.y, this.r, this.r);
-    } else if ( 30 < score < 40) {
-      image(dragonfly, this.x, this.y, this.r, this.r);
-    } else if (score > 40) {
-      image(bees, this.x, this.y, this.r, this.r);
-    }
+      image(dragonfly, this.x-100, this.y-150, this.r, this.r);
+      image(bees, this.x+300+random(10), this.y+300+random(10), this.r, this.r);
+  
 
-  }
-
+}
 }
